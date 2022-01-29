@@ -7,7 +7,6 @@ import com.udemy.compositionudemy.domain.repository.GameRepository
 class GetGameSettingsUseCase(
     val repository: GameRepository
 ) {
-
     operator fun invoke(level: Level): GameSettings {
         return repository.getGameSettings(level)
     }
