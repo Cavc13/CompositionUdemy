@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">CompositionUdemy</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_logo">Welcome logo</string>
+    <string name="text_title">Составь числа</string>
+    <string name="understand">Понятно</string>
+    <string name="choose_level">Выбирите уровень</string>
+    <string name="test">Тестовый</string>
+    <string name="easy">легкий</string>
+    <string name="hard">тяжелый</string>
+    <string name="normal">средний</string>
+    <string name="question">\?</string>
+    <string name="progress_right_answers">Правельных ответов</string>
+    <string name="game_over">Игра окончена</string>
+    <string name="score_answers">score answers</string>
+    <string name="required_score">required score</string>
+    <string name="required_percentage">required percentage</string>
+    <string name="score_percentage">score percentage</string>
+    <string name="retry">Заново</string>
 </resources>
