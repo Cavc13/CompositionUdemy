@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+import com.udemy.compositionudemy.R
 import com.udemy.compositionudemy.databinding.FragmentGameFinishedBinding
 import com.udemy.compositionudemy.domain.entity.GameResult
 import java.lang.RuntimeException
@@ -32,18 +33,51 @@ class GameFinishedFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        requireActivity().onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+    private fun setupClickListener() {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 retryGame()
             }
-        })
-
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         binding.buttonRetry.setOnClickListener {
             retryGame()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        onBindViews()
+        setupClickListener()
+    }
+
+    private fun onBindViews(){
+        with(binding) {
+            emojiResult.setImageResource(getSmileResId())
+            tvRequiredAnswers.text = "Необходимое количество правильных ответов: " +
+                    "${gameResult.gameSettings.minCountOfRightAnswers}"
+            tvScoreAnswers.text = "Ваш счет правильных ответов: ${gameResult.countOfRightAnswers}"
+            tvRequiredPercentage.text = "Необходимый процент правильных ответов: " +
+                    "${gameResult.gameSettings.minPercentOfRightAnswers}"
+            tvScorePercentage.text = "Процент правильных ответов: " +
+             "${getPercentOfRightAnswers()}"
+        }
+    }
+
+    private fun getPercentOfRightAnswers() = with(gameResult) {
+        if (countOfQuestion == 0) {
+            0
+        } else {
+            ((countOfRightAnswers / countOfQuestion.toDouble()) * 100).toInt()
+        }
+    }
+
+    private fun getSmileResId(): Int {
+        return if (gameResult.winner) {
+            R.drawable.ic_smile
+        } else {
+            R.drawable.ic_sad
         }
     }
 
