@@ -18,11 +18,10 @@ class GameFinishedFragment : Fragment() {
 
     private val args by navArgs<GameFinishedFragmentArgs>()
 
-
     private var _binding: FragmentGameFinishedBinding? = null
     private val binding: FragmentGameFinishedBinding
-        get() = _binding ?: throw RuntimeException("binding from FragmentGameFinishedBinding == null")
-
+        get() = _binding
+            ?: throw RuntimeException("binding from FragmentGameFinishedBinding == null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,44 +40,14 @@ class GameFinishedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onBindViews()
+        binding.gameResult = args.gameResult
         setupClickListener()
-    }
-
-    private fun onBindViews(){
-        with(binding) {
-            emojiResult.setImageResource(getSmileResId())
-            tvRequiredAnswers.text = "Необходимое количество правильных ответов: " +
-                    "${args.gameResult.gameSettings.minCountOfRightAnswers}"
-            tvScoreAnswers.text = "Ваш счет правильных ответов: ${args.gameResult.countOfRightAnswers}"
-            tvRequiredPercentage.text = "Необходимый процент правильных ответов: " +
-                    "${args.gameResult.gameSettings.minPercentOfRightAnswers}"
-            tvScorePercentage.text = "Процент правильных ответов: " +
-             "${getPercentOfRightAnswers()}"
-        }
-    }
-
-    private fun getPercentOfRightAnswers() = with(args.gameResult) {
-        if (countOfQuestion == 0) {
-            0
-        } else {
-            ((countOfRightAnswers / countOfQuestion.toDouble()) * 100).toInt()
-        }
-    }
-
-    private fun getSmileResId(): Int {
-        return if (args.gameResult.winner) {
-            R.drawable.ic_smile
-        } else {
-            R.drawable.ic_sad
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 
     private fun retryGame() {
         findNavController().popBackStack()
